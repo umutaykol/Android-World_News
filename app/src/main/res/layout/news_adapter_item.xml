@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="article"
+            type="com.umut.newsapp.models.Article" />
+
+        <variable
+            name="on_click_listener"
+            type="com.umut.newsapp.adapters.recycler_view_adapters.ItemClickListener" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_margin="10dp"
+        android:elevation="10dp"
+        android:gravity="center"
+        android:onClick="@{(view) -> on_click_listener.onClicked(view, article)}"
+        android:orientation="vertical">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/news_image"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="20dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:cropToPadding="true"
+                android:downloadUrl="@{article.urlToImage.toString()}"
+                android:scaleType="centerCrop"
+                android:src="@drawable/samplenews"
+                android:contentDescription="@string/article_image" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/news_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
+            android:layout_toEndOf="@+id/news_image"
+            android:maxLines="4"
+            android:text="@{article.title}"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/news_publication_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:convertTime="@{article.publishedAt}"
+            android:padding="5dp"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            app:drawableStartCompat="@drawable/ic_baseline_access_time_24" />
+
+    </RelativeLayout>
+</layout>

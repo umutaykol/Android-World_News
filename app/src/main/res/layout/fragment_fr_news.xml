@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.FrNewsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title_text_fr_news"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="15dp"
+            android:text="@string/top_news"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <com.jama.carouselview.CarouselView
+            android:id="@+id/carousel_fr_news"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:carouselOffset="center"
+            app:enableSnapping="true"
+            app:indicatorAnimationType="swap"
+            app:indicatorPadding="8"
+            app:indicatorRadius="4"
+            app:resource="@layout/list_item_for_top_headlines"
+            app:scaleOnScroll="false"
+            app:setAutoPlay="true"
+            app:setAutoPlayDelay="3000"
+            app:size="5"
+            app:spacing="10" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_fr_news"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
