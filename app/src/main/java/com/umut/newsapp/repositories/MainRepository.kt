@@ -1,4 +1,4 @@
-package com.umut.newsapp.ui.repositories
+package com.umut.newsapp.repositories
 
 import com.umut.newsapp.models.News
 import com.umut.newsapp.utils.NetworkStatus

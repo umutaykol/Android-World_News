@@ -1,4 +1,4 @@
-package com.umut.newsapp.ui.repositories
+package com.umut.newsapp.repositories
 
 import com.umut.newsapp.managers.Globals
 import com.umut.newsapp.service.NewsApiService
