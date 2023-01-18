@@ -35,7 +35,7 @@
                 android:cropToPadding="true"
                 android:downloadUrl="@{article.urlToImage.toString()}"
                 android:scaleType="centerCrop"
-                android:src="@drawable/samplenews"
+                android:src="@drawable/news"
                 android:contentDescription="@string/article_image" />
 
         </com.google.android.material.card.MaterialCardView>

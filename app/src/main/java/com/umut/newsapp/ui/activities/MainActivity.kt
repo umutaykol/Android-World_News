@@ -1,11 +1,17 @@
 package com.umut.newsapp.ui.activities
 
+import android.content.Context
+import android.content.DialogInterface
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
@@ -34,10 +40,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        getAllNews()
-
-        observeLiveDataChanges()
-
         setSupportActionBar(binding.mainLayout.toolbarMain)
         val toggle = ActionBarDrawerToggle(
             this,
@@ -53,13 +55,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         onNavigationItemSelected(
             binding.navViewMain.menu.getItem(Country.TURKIYE.order).setChecked(true)
         )
+
+        if (isNetworkAvailable(applicationContext)) {
+            getAllNews()
+        } else {
+            showAlertDialog(
+                "WARNING",
+                "Network is not available. Please check your internet connection."
+            ) {
+                finish()
+            }
+        }
+
+        observeLiveDataChanges()
     }
 
     private fun getAllNews() {
-//        Constants.countryCodesMap["UNITED STATES"]?.let { mainViewModel.getNews(it) }
-//        Constants.countryCodesMap["TURKIYE"]?.let { mainViewModel.getNews(it) }
-//        Constants.countryCodesMap["FRANCE"]?.let { mainViewModel.getNews(it) }
-//        Constants.countryCodesMap["BRITAIN"]?.let { mainViewModel.getNews(it) }
+        Constants.countryCodesMap["UNITED STATES"]?.let { mainViewModel.getNews(it) }
+        Constants.countryCodesMap["TURKIYE"]?.let { mainViewModel.getNews(it) }
+        Constants.countryCodesMap["FRANCE"]?.let { mainViewModel.getNews(it) }
+        Constants.countryCodesMap["BRITAIN"]?.let { mainViewModel.getNews(it) }
         Constants.countryCodesMap["ITALIA"]?.let { mainViewModel.getNews(it) }
     }
 
@@ -159,7 +174,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         null
                     }
                     is NetworkStatus.Success -> {
-                        if (++totalResponseCount == 1) {
+                        if (++totalResponseCount == 5) {
                             hideShimmerLayout()
                             initViewPager()
                         }
@@ -193,10 +208,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.mainLayout.viewPagerMain.visibility = View.VISIBLE
     }
 
+    /**
+     * Switch Fragments in a ViewPager on clicking items in Navigation Drawer by menu item id
+     */
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
 
-        // Switch Fragments in a ViewPager on clicking items in Navigation Drawer by menu item id
+
         if (id == R.id.nav_turkiye) {
             binding.mainLayout.viewPagerMain.currentItem = Country.TURKIYE.order
         } else if (id == R.id.nav_us) {
@@ -211,6 +229,41 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         binding.drawerMain.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val capabilities =
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork) ?: return false
+            return when {
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                else -> false
+            }
+        } else {
+            if (connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo!!.isConnectedOrConnecting) {
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun showAlertDialog(
+        title: String,
+        message: String,
+        todo: () -> Unit
+    ) {
+        val dialogBuilder = AlertDialog.Builder(this@MainActivity)
+        dialogBuilder.setMessage(message)
+            .setTitle(title)
+            .setCancelable(false)
+            .setPositiveButton("OK", DialogInterface.OnClickListener { dialog, id ->
+                todo()
+                dialog.dismiss()
+            }).create().show()
     }
 
     companion object {

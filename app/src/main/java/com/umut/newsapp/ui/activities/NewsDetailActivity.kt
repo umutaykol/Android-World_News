@@ -24,8 +24,7 @@ class NewsDetailActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        binding.toolbarNewsDetail.title =
-            intent.getStringExtra(Constants.NEWS_TITLE).toString().substring(0, 24).plus("...")
+        binding.toolbarNewsDetail.title = intent.getStringExtra(Constants.NEWS_TITLE).toString().substring(0, 24).plus("...")
         newsUrl = intent.getStringExtra(Constants.NEWS_URL).toString()
 
         initWebView()

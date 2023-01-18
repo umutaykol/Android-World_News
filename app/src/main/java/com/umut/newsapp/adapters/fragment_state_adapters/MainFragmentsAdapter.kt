@@ -15,20 +15,16 @@ class MainFragmentsAdapter(fm: FragmentManager, lifecycle: Lifecycle) :
 
     override fun createFragment(position: Int): Fragment = when (position) {
         Country.TURKIYE.order -> {
-//            TrNewsFragment()
-            ItNewsFragment()
+            TrNewsFragment()
         }
         Country.UNITED_STATES.order -> {
-//            UsNewsFragment()
-            ItNewsFragment()
+            UsNewsFragment()
         }
         Country.FRANCE.order -> {
-//            FrNewsFragment()
-            ItNewsFragment()
+            FrNewsFragment()
         }
         Country.BRITAIN.order -> {
-//            BrNewsFragment()
-            ItNewsFragment()
+            BrNewsFragment()
         }
         Country.ITALIA.order -> {
             ItNewsFragment()
