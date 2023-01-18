@@ -22,6 +22,17 @@ import com.umut.newsapp.enums.Country
 import com.umut.newsapp.models.News
 import com.umut.newsapp.ui.viewmodels.MainViewModel
 import com.umut.newsapp.utils.Constants
+import com.umut.newsapp.utils.Constants.BR
+import com.umut.newsapp.utils.Constants.BRAZIL
+import com.umut.newsapp.utils.Constants.FR
+import com.umut.newsapp.utils.Constants.FRANCE
+import com.umut.newsapp.utils.Constants.IT
+import com.umut.newsapp.utils.Constants.ITALIA
+import com.umut.newsapp.utils.Constants.TR
+import com.umut.newsapp.utils.Constants.TURKIYE
+import com.umut.newsapp.utils.Constants.UNITED_STATES
+import com.umut.newsapp.utils.Constants.US
+import com.umut.newsapp.utils.Constants.countryCodesMap
 import com.umut.newsapp.utils.NetworkStatus
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -70,17 +81,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun getAllNews() {
-        Constants.countryCodesMap["UNITED STATES"]?.let { mainViewModel.getNews(it) }
-        Constants.countryCodesMap["TURKIYE"]?.let { mainViewModel.getNews(it) }
-        Constants.countryCodesMap["FRANCE"]?.let { mainViewModel.getNews(it) }
-        Constants.countryCodesMap["BRAZIL"]?.let { mainViewModel.getNews(it) }
-        Constants.countryCodesMap["ITALIA"]?.let { mainViewModel.getNews(it) }
+        Constants.countryCodesMap[UNITED_STATES]?.let { mainViewModel.getNews(it) }
+        Constants.countryCodesMap[TURKIYE]?.let { mainViewModel.getNews(it) }
+        Constants.countryCodesMap[FRANCE]?.let { mainViewModel.getNews(it) }
+        Constants.countryCodesMap[BRAZIL]?.let { mainViewModel.getNews(it) }
+        Constants.countryCodesMap[ITALIA]?.let { mainViewModel.getNews(it) }
     }
 
     private fun observeLiveDataChanges() {
         with(mainViewModel) {
 
-            newsLiveData["TR"]?.observe(this@MainActivity) {
+            errorLiveData.observe(this@MainActivity) {
+                if (it.isNotEmpty()) {
+                    showAlertDialog(
+                        "WARNING",
+                        "Some error occured. Detail: ${it}."
+                    ) {
+                        finish()
+                    }
+                }
+            }
+
+            newsLiveData[TR]?.observe(this@MainActivity) {
                 trNews = when (it) {
                     is NetworkStatus.Error -> {
                         null
@@ -89,7 +111,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         null
                     }
                     is NetworkStatus.Success -> {
-                        if (++totalResponseCount == 5) {
+                        if (++totalResponseCount == countryCodesMap.size) {
                             hideShimmerLayout()
                             initViewPager()
                         }
@@ -101,7 +123,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
 
-            newsLiveData["US"]?.observe(this@MainActivity) {
+            newsLiveData[US]?.observe(this@MainActivity) {
                 usNews = when (it) {
                     is NetworkStatus.Error -> {
                         null
@@ -110,7 +132,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         null
                     }
                     is NetworkStatus.Success -> {
-                        if (++totalResponseCount == 5) {
+                        if (++totalResponseCount == countryCodesMap.size) {
                             hideShimmerLayout()
                             initViewPager()
                         }
@@ -122,7 +144,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
 
-            newsLiveData["FR"]?.observe(this@MainActivity) {
+            newsLiveData[FR]?.observe(this@MainActivity) {
                 frNews = when (it) {
                     is NetworkStatus.Error -> {
                         null
@@ -131,7 +153,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         null
                     }
                     is NetworkStatus.Success -> {
-                        if (++totalResponseCount == 5) {
+                        if (++totalResponseCount == countryCodesMap.size) {
                             hideShimmerLayout()
                             initViewPager()
                         }
@@ -143,7 +165,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
 
-            newsLiveData["BR"]?.observe(this@MainActivity) {
+            newsLiveData[BR]?.observe(this@MainActivity) {
                 brNews = when (it) {
                     is NetworkStatus.Error -> {
                         null
@@ -152,7 +174,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         null
                     }
                     is NetworkStatus.Success -> {
-                        if (++totalResponseCount == 5) {
+                        if (++totalResponseCount == countryCodesMap.size) {
                             hideShimmerLayout()
                             initViewPager()
                         }
@@ -164,7 +186,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
 
-            newsLiveData["IT"]?.observe(this@MainActivity) {
+            newsLiveData[IT]?.observe(this@MainActivity) {
                 itNews = when (it) {
                     is NetworkStatus.Error -> {
                         null
@@ -173,7 +195,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         null
                     }
                     is NetworkStatus.Success -> {
-                        if (++totalResponseCount == 5) {
+                        if (++totalResponseCount == countryCodesMap.size) {
                             hideShimmerLayout()
                             initViewPager()
                         }
@@ -231,11 +253,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun isNetworkAvailable(context: Context): Boolean {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val capabilities =
-                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork) ?: return false
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+                    ?: return false
             return when {
                 capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
                 capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true

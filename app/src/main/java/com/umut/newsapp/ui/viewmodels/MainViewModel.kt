@@ -26,11 +26,19 @@ class MainViewModel @Inject constructor(
 
     val newsLiveData: Map<String, LiveData<NetworkStatus<News>>> = newsMutableLiveData
 
+
+    private val errorMutableLiveData: MutableLiveData<String> = MutableLiveData()
+    val errorLiveData: LiveData<String> = errorMutableLiveData
+
     fun getNews(countryCode: String) {
         when (countryCode) {
             "US" -> {
                 viewModelScope.launch {
                     mainRepository.getNews(countryCode).collect {
+                        when(it) {
+                            is NetworkStatus.Error -> errorMutableLiveData.postValue(it.error)
+                            else -> {}
+                        }
                         newsMutableLiveData["US"]?.postValue(it)
                     }
                 }
@@ -38,6 +46,10 @@ class MainViewModel @Inject constructor(
             "TR" -> {
                 viewModelScope.launch {
                     mainRepository.getNews(countryCode).collect {
+                        when(it) {
+                            is NetworkStatus.Error -> errorMutableLiveData.postValue(it.error)
+                            else -> {}
+                        }
                         newsMutableLiveData["TR"]?.postValue(it)
                     }
                 }
@@ -45,6 +57,10 @@ class MainViewModel @Inject constructor(
             "BR" -> {
                 viewModelScope.launch {
                     mainRepository.getNews(countryCode).collect {
+                        when(it) {
+                            is NetworkStatus.Error -> errorMutableLiveData.postValue(it.error)
+                            else -> {}
+                        }
                         newsMutableLiveData["BR"]?.postValue(it)
                     }
                 }
@@ -52,6 +68,10 @@ class MainViewModel @Inject constructor(
             "FR" -> {
                 viewModelScope.launch {
                     mainRepository.getNews(countryCode).collect {
+                        when(it) {
+                            is NetworkStatus.Error -> errorMutableLiveData.postValue(it.error)
+                            else -> {}
+                        }
                         newsMutableLiveData["FR"]?.postValue(it)
                     }
                 }
@@ -59,6 +79,10 @@ class MainViewModel @Inject constructor(
             "IT" -> {
                 viewModelScope.launch {
                     mainRepository.getNews(countryCode).collect {
+                        when(it) {
+                            is NetworkStatus.Error -> errorMutableLiveData.postValue(it.error)
+                            else -> {}
+                        }
                         newsMutableLiveData["IT"]?.postValue(it)
                     }
                 }
