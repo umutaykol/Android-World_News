@@ -62,7 +62,7 @@ This application shows news from 5 countries. Easy to use just tab to the news w
 
 Umut Aykol - [@linkedin](https://www.linkedin.com/in/umut-aykol/) - mehmetumutaykol@gmail.com
 
-Project Link: [https://github.com/umutaykol/Android-NewsApplication)
+Project Link: [https://github.com/umutaykol/Android-World_News)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
