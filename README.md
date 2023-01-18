@@ -44,7 +44,7 @@ _Below is an example of how you can instruct your audience on installing and set
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-This application shows news of 5 countries. Easy to use just tab to the news which you want to see full detail of the article.
+This application shows news from 5 countries. Easy to use just tab to the news which you want to see full detail of the article.
 
 
 ### Screenshots
