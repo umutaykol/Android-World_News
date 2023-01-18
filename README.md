@@ -9,7 +9,7 @@ This application gets news from `https://newsapi.org` API.
 
 Get more information about [@newsapi.org](https://newsapi.org)
 
-* This project shows Türkiye, United States, France, Britain and Italia news from `https://newsapi.org`
+* This project shows Türkiye, United States, France, Brazil and Italia news from `https://newsapi.org`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

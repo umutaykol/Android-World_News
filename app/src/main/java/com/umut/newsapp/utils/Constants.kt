@@ -8,7 +8,7 @@ object Constants {
             Pair("TURKIYE", "TR"),
             Pair("UNITED STATES", "US"),
             Pair("FRANCE", "FR"),
-            Pair("BRITAIN", "BR"),
+            Pair("BRAZIL", "BR"),
             Pair("ITALIA", "IT")
         )
 

@@ -6,7 +6,6 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
@@ -74,7 +73,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         Constants.countryCodesMap["UNITED STATES"]?.let { mainViewModel.getNews(it) }
         Constants.countryCodesMap["TURKIYE"]?.let { mainViewModel.getNews(it) }
         Constants.countryCodesMap["FRANCE"]?.let { mainViewModel.getNews(it) }
-        Constants.countryCodesMap["BRITAIN"]?.let { mainViewModel.getNews(it) }
+        Constants.countryCodesMap["BRAZIL"]?.let { mainViewModel.getNews(it) }
         Constants.countryCodesMap["ITALIA"]?.let { mainViewModel.getNews(it) }
     }
 
@@ -222,7 +221,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else if (id == R.id.nav_france) {
             binding.mainLayout.viewPagerMain.currentItem = Country.FRANCE.order
         } else if (id == R.id.nav_britain) {
-            binding.mainLayout.viewPagerMain.currentItem = Country.BRITAIN.order
+            binding.mainLayout.viewPagerMain.currentItem = Country.BRAZIL.order
         } else if (id == R.id.nav_italia) {
             binding.mainLayout.viewPagerMain.currentItem = Country.ITALIA.order
         }

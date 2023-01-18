@@ -23,7 +23,7 @@ class MainFragmentsAdapter(fm: FragmentManager, lifecycle: Lifecycle) :
         Country.FRANCE.order -> {
             FrNewsFragment()
         }
-        Country.BRITAIN.order -> {
+        Country.BRAZIL.order -> {
             BrNewsFragment()
         }
         Country.ITALIA.order -> {

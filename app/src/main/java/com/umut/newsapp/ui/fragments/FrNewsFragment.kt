@@ -87,7 +87,7 @@ class FrNewsFragment : Fragment() {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
 
-        MainActivity.itNews?.articles?.let {
+        MainActivity.frNews?.articles?.let {
             newsAdapter.differ.submitList(it.slice(5..it.lastIndex))
         }
     }
